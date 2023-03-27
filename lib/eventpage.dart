@@ -116,7 +116,20 @@ class _eventPageState extends State<eventPage> {
               padding: const EdgeInsets.all(8),
               itemCount: widget.eventsdate.length,
               itemBuilder: (BuildContext context, int index) {
-                Map<String, String> timeRange = _timeRanges[index];
+                Map<String, String> timeRange;
+                if (_timeRanges[index]['start']! == null) {
+                  timeRange = _timeRanges[index];
+                } else {
+                  timeRange = {
+                    'start': _startTime.hour.toString() +
+                        ':' +
+                        _startTime.minute.toString().padLeft(2, '0'),
+                    'end': _endTime.hour.toString() +
+                        ':' +
+                        _endTime.minute.toString().padLeft(2, '0')
+                  };
+                }
+
                 return ListTile(
                   title: Text('${widget.eventsdate[index].eventName}}'),
                   subtitle:
