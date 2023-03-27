@@ -75,30 +75,26 @@ class _eventPageState extends State<eventPage> {
       appBar: AppBar(title: Text("スケジュール登録画面" + widget.date)),
       body: Column(
         children: [
-          Text("イベント名"),
-          TextField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'イベント名',
-            ),
-          ),
-          Text("開始時間"),
-          Text(DateFormat.jm().format(_startTime)),
-          ElevatedButton(
-            onPressed: () => _selectStartTime(context),
-            child: Text('開始時間を選択'),
-          ),
-          Text("終了時間"),
-          Text(DateFormat.jm().format(_endTime)),
-          ElevatedButton(
-            onPressed: () => _selectEndTime(context),
-            child: Text('終了時間を選択'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('戻る'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                onPressed: () => _selectStartTime(context),
+                child: Text('Start Time'),
+              ),
+              Text(
+                '${_startTime.hour}:${_startTime.minute.toString().padLeft(2, '0')}',
+                style: TextStyle(fontSize: 18.0),
+              ),
+              ElevatedButton(
+                onPressed: () => _selectEndTime(context),
+                child: Text('End Time'),
+              ),
+              Text(
+                '${_endTime.hour}:${_endTime.minute.toString().padLeft(2, '0')}',
+                style: TextStyle(fontSize: 18.0),
+              ),
+            ],
           ),
           ListView.builder(
             padding: const EdgeInsets.all(8),
