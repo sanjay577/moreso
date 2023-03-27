@@ -117,7 +117,7 @@ class _eventPageState extends State<eventPage> {
                   // color: Colors.amber[colorCodes[index]],
                   child: Column(
                     children: <Widget>[
-                      Text('Entry ${widget.eventsdate[index].eventname}'),
+                      Text('Entry ${widget.eventsdate[index].eventName}'),
                       Row(
                         children: <Widget>[
                           a == null ? Text('') : Text('$a'),
