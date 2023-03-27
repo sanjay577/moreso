@@ -15,6 +15,8 @@ class eventPage extends StatefulWidget {
 }
 
 class _eventPageState extends State<eventPage> {
+  List<Map<String, String>> _timeRanges = [];
+
   late DateTime _startTime;
 
   late DateTime _endTime;
@@ -99,8 +101,10 @@ class _eventPageState extends State<eventPage> {
               ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      a = '${_endTime.hour}:${_endTime.minute.toString().padLeft(2, '0')}';
-                      b = '${_startTime.hour}:${_startTime.minute.toString().padLeft(2, '0')}';
+                      _timeRanges.add({
+                        'start': DateFormat.jm().format(_startTime).toString(),
+                        'end': DateFormat.jm().format(_endTime).toString(),
+                      });
                     });
                     print('登録');
                   },
@@ -112,19 +116,18 @@ class _eventPageState extends State<eventPage> {
               padding: const EdgeInsets.all(8),
               itemCount: widget.eventsdate.length,
               itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  height: 50,
-                  // color: Colors.amber[colorCodes[index]],
-                  child: Column(
-                    children: <Widget>[
-                      Text('Entry ${widget.eventsdate[index].eventName}'),
-                      Row(
-                        children: <Widget>[
-                          a == null ? Text('') : Text('$a'),
-                          b == null ? Text('') : Text('$b'),
-                        ],
-                      ),
-                    ],
+                Map<String, String> timeRange = _timeRanges[index];
+                return ListTile(
+                  title: Text('${widget.eventsdate[index].eventName}}'),
+                  subtitle:
+                      timeRange['start'] != null && timeRange['end'] != null
+                          ? Text('${timeRange['start']} - ${timeRange['end']}')
+                          : null,
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      _deleteTimeRange(index);
+                    },
                   ),
                 );
               },
@@ -133,6 +136,12 @@ class _eventPageState extends State<eventPage> {
         ],
       ),
     );
+  }
+
+  void _deleteTimeRange(int index) {
+    setState(() {
+      _timeRanges.removeAt(index);
+    });
   }
 }
 
