@@ -40,11 +40,11 @@ class _StartPageState extends State<StartPage> {
     ),
     CalendarEvent(
       eventName: "勉強する",
-      eventDate: DateTime(2023, 3, 20),
+      eventDate: DateTime(2023, 3, 20, 10, 1, 2),
     ),
     CalendarEvent(
       eventName: "エクササイズ",
-      eventDate: DateTime(2023, 3, 20),
+      eventDate: DateTime(2023, 3, 20, 9, 1, 2),
     ),
     CalendarEvent(
       eventName: "休み",
@@ -105,6 +105,8 @@ class _StartPageState extends State<StartPage> {
             return eventDate.year == date.year &&
                 eventDate.month == date.month &&
                 eventDate.day == date.day;
+            // eventDate.hour == date.hour &&
+            // eventDate.minute == date.minute;
           }).toList();
           Navigator.push(
             context,

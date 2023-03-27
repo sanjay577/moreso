@@ -15,7 +15,7 @@ class eventPage extends StatefulWidget {
 }
 
 class _eventPageState extends State<eventPage> {
-  List<Map<String, String>> _timeRanges = [];
+  // List<Map<String, String>> _timeRanges = [];
 
   late DateTime _startTime;
 
@@ -101,10 +101,12 @@ class _eventPageState extends State<eventPage> {
               ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      _timeRanges.add({
-                        'start': DateFormat.jm().format(_startTime).toString(),
-                        'end': DateFormat.jm().format(_endTime).toString(),
-                      });
+                      // _timeRanges.add({
+                      //   'start':
+                      //       '${_startTime.hour}:${_startTime.minute.toString().padLeft(2, '0')}',
+                      //   'end':
+                      //       '${_endTime.hour}:${_endTime.minute.toString().padLeft(2, '0')}',
+                      // });
                     });
                     print('登録');
                   },
@@ -116,26 +118,11 @@ class _eventPageState extends State<eventPage> {
               padding: const EdgeInsets.all(8),
               itemCount: widget.eventsdate.length,
               itemBuilder: (BuildContext context, int index) {
-                Map<String, String> timeRange;
-                if (_timeRanges.isEmpty) {
-                  timeRange = {
-                    'start': _startTime.hour.toString() +
-                        ':' +
-                        _startTime.minute.toString().padLeft(2, '0'),
-                    'end': _endTime.hour.toString() +
-                        ':' +
-                        _endTime.minute.toString().padLeft(2, '0')
-                  };
-                } else {
-                  timeRange = _timeRanges[index];
-                }
-
                 return ListTile(
-                  title: Text('${widget.eventsdate[index].eventName}}'),
-                  subtitle:
-                      timeRange['start'] != null && timeRange['end'] != null
-                          ? Text('${timeRange['start']} - ${timeRange['end']}')
-                          : null,
+                  title: Text('${widget.eventsdate[index].eventName}'),
+                  subtitle: Text('${widget.eventsdate[index].eventDate.hour}' +
+                      ':' +
+                      '${widget.eventsdate[index].eventDate.minute}'),
                   trailing: IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
@@ -151,11 +138,7 @@ class _eventPageState extends State<eventPage> {
     );
   }
 
-  void _deleteTimeRange(int index) {
-    setState(() {
-      _timeRanges.removeAt(index);
-    });
-  }
+  void _deleteTimeRange(int index) {}
 }
 
 class DateFormat {
