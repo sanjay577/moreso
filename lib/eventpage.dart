@@ -98,8 +98,10 @@ class _eventPageState extends State<eventPage> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    a = DateFormat('jm').format(_startTime);
-                    b = DateFormat('jm').format(_endTime);
+                    setState(() {
+                      a = '${_endTime.hour}:${_endTime.minute.toString().padLeft(2, '0')}';
+                      b = '${_startTime.hour}:${_startTime.minute.toString().padLeft(2, '0')}';
+                    });
                     print('登録');
                   },
                   child: Text('登録')),
@@ -118,8 +120,8 @@ class _eventPageState extends State<eventPage> {
                       Text('Entry ${widget.eventsdate[index].eventname}'),
                       Row(
                         children: <Widget>[
-                          Text('$a'),
-                          Text('$b'),
+                          a == null ? Text('') : Text('$a'),
+                          b == null ? Text('') : Text('$b'),
                         ],
                       ),
                     ],
