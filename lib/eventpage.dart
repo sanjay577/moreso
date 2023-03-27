@@ -120,9 +120,22 @@ class _eventPageState extends State<eventPage> {
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   title: Text('${widget.eventsdate[index].eventName}'),
-                  subtitle: Text('${widget.eventsdate[index].eventDate.hour}' +
-                      ':' +
-                      '${widget.eventsdate[index].eventDate.minute}'),
+                  subtitle: Row(
+                    children: [
+                      Text('${widget.eventsdate[index].eventDate.hour}' +
+                          ':' +
+                          '${widget.eventsdate[index].eventDate.minute}'),
+                      Text('〜'),
+                      Text(
+                        '${_startTime.hour}:${_startTime.minute.toString().padLeft(2, '0')}',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                      Text(
+                        '${_endTime.hour}:${_endTime.minute.toString().padLeft(2, '0')}',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                    ],
+                  ),
                   trailing: IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
