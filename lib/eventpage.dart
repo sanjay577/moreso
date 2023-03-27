@@ -117,9 +117,7 @@ class _eventPageState extends State<eventPage> {
               itemCount: widget.eventsdate.length,
               itemBuilder: (BuildContext context, int index) {
                 Map<String, String> timeRange;
-                if (_timeRanges[index]['start']! == null) {
-                  timeRange = _timeRanges[index];
-                } else {
+                if (_timeRanges.isEmpty) {
                   timeRange = {
                     'start': _startTime.hour.toString() +
                         ':' +
@@ -128,6 +126,8 @@ class _eventPageState extends State<eventPage> {
                         ':' +
                         _endTime.minute.toString().padLeft(2, '0')
                   };
+                } else {
+                  timeRange = _timeRanges[index];
                 }
 
                 return ListTile(
