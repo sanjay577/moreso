@@ -1,11 +1,10 @@
 import 'package:cell_calendar/cell_calendar.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:moreso/eventpage.dart';
 
 void main() {
-  initializeDateFormatting().then((_) => runApp(MyApp()));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -117,6 +116,9 @@ class _StartPageState extends State<StartPage> {
                     date.day.toString() +
                     " " +
                     date.year.toString(),
+                onTimeRangeSelected: (startTime, endTime) => print(
+                  "Selected time range: $startTime - $endTime",
+                ),
               ),
             ),
           );

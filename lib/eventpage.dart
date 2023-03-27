@@ -1,60 +1,105 @@
 import 'package:flutter/material.dart';
 
-class eventPage extends StatelessWidget {
+class eventPage extends StatefulWidget {
   final eventsdate, date;
+  final Function(DateTime startTime, DateTime endTime) onTimeRangeSelected;
 
-  const eventPage({super.key, required this.eventsdate, required this.date});
+  const eventPage(
+      {super.key,
+      required this.eventsdate,
+      required this.date,
+      required this.onTimeRangeSelected});
 
-  get timeinput => null;
+  @override
+  State<eventPage> createState() => _eventPageState();
+}
+
+class _eventPageState extends State<eventPage> {
+  late DateTime _startTime;
+
+  late DateTime _endTime;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTime = DateTime.now();
+    _endTime = DateTime.now();
+  }
+
+  void _selectStartTime(BuildContext context) async {
+    final TimeOfDay? selectedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(_startTime),
+    );
+
+    if (selectedTime != null) {
+      setState(() {
+        _startTime = DateTime(
+          _startTime.year,
+          _startTime.month,
+          _startTime.day,
+          selectedTime.hour,
+          selectedTime.minute,
+        );
+      });
+
+      widget.onTimeRangeSelected(_startTime, _endTime);
+    }
+  }
+
+  void _selectEndTime(BuildContext context) async {
+    final TimeOfDay? selectedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(_endTime),
+    );
+
+    if (selectedTime != null) {
+      setState(() {
+        _endTime = DateTime(
+          _endTime.year,
+          _endTime.month,
+          _endTime.day,
+          selectedTime.hour,
+          selectedTime.minute,
+        );
+      });
+
+      widget.onTimeRangeSelected(_startTime, _endTime);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         // ignore: prefer_interpolation_to_compose_strings
-        appBar: AppBar(title: Text("スケジュール登録画面" + date)),
+        appBar: AppBar(title: Text("スケジュール登録画面" + widget.date)),
         body: ListView.builder(
             padding: const EdgeInsets.all(8),
-            itemCount: eventsdate.length,
+            itemCount: widget.eventsdate.length,
             itemBuilder: (BuildContext context, int index) {
-              return SizedBox(
-                  height: 50,
-                  child: TextField(
-                      controller:
-                          timeinput, //editing controller of this TextField
-                      decoration: InputDecoration(
-                          icon: Icon(Icons.timer), //icon of text field
-                          labelText: "Enter Time" //label text of field
-                          ),
-                      readOnly:
-                          true, //set it true, so that user will not able to edit text
-                      onTap: () async {
-                        TimeOfDay? pickedTime = await showTimePicker(
-                          initialTime: TimeOfDay.now(),
-                          context: context,
-                        );
-                        if (pickedTime != null) {
-                          print(pickedTime.format(context)); //output 10:51 PM
-                          DateTime parsedTime = DateFormat.jm()
-                              .parse(pickedTime.format(context).toString());
-                          //converting to DateTime so that we can further format on different pattern.
-                          print(parsedTime); //output 1970-01-01 22:53:00.000
-                          String formattedTime =
-                              DateFormat('HH:mm:ss').format(parsedTime);
-                          print(formattedTime); //output 14:59:00
-                          //DateFormat() is from intl package, you can format the time on any pattern you need.
-
-                          setState(() {
-                            timeinput.text =
-                                formattedTime; //set the value of text field.
-                          });
-                        } else {
-                          print("Time is not selected");
-                        }
-                      }));
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => _selectStartTime(context),
+                    child: Text('Start Time'),
+                  ),
+                  Text(
+                    '${_startTime.hour}:${_startTime.minute.toString().padLeft(2, '0')}',
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => _selectEndTime(context),
+                    child: Text('End Time'),
+                  ),
+                  Text(
+                    '${_endTime.hour}:${_endTime.minute.toString().padLeft(2, '0')}',
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                ],
+              );
             }));
   }
-
-  void setState(Null Function() param0) {}
 }
 
 class DateFormat {

@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:moreso/eventpage.dart';
 
 void main() {
-  initializeDateFormatting().then((_) => runApp(MyApp()));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -32,10 +31,13 @@ class _StartPageState extends State<StartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("calender")),
-      body: TableCalendar(
-        firstDay: DateTime.utc(2010, 10, 16),
-        lastDay: DateTime.utc(2030, 3, 14),
-        focusedDay: DateTime.now(),
+      body: Center(
+        child: CalendarDatePicker(
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2021),
+          lastDate: DateTime(2025),
+          onDateChanged: (DateTime date) {},
+        ),
       ),
     );
   }
