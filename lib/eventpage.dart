@@ -19,6 +19,8 @@ class _eventPageState extends State<eventPage> {
 
   late DateTime _endTime;
 
+  var a, b;
+
   @override
   void initState() {
     super.initState();
@@ -94,19 +96,37 @@ class _eventPageState extends State<eventPage> {
                 '${_endTime.hour}:${_endTime.minute.toString().padLeft(2, '0')}',
                 style: TextStyle(fontSize: 18.0),
               ),
+              ElevatedButton(
+                  onPressed: () {
+                    a = DateFormat('jm').format(_startTime);
+                    b = DateFormat('jm').format(_endTime);
+                    print('登録');
+                  },
+                  child: Text('登録')),
             ],
           ),
-          ListView.builder(
-            padding: const EdgeInsets.all(8),
-            itemCount: widget.eventsdate.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                height: 50,
-                // color: Colors.amber[colorCodes[index]],
-                child: Center(
-                    child: Text('Entry ${widget.eventsdate[index].eventname}')),
-              );
-            },
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: widget.eventsdate.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: 50,
+                  // color: Colors.amber[colorCodes[index]],
+                  child: Column(
+                    children: <Widget>[
+                      Text('Entry ${widget.eventsdate[index].eventname}'),
+                      Row(
+                        children: <Widget>[
+                          Text('$a'),
+                          Text('$b'),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
